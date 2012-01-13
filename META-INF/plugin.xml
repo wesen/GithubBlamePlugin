@@ -1,0 +1,27 @@
+<idea-plugin version="2">
+  <name>Github Blame Open</name>
+  <description>Opens the browser at the github page responsible for the current line</description>
+  <version>1.0</version>
+  <vendor>com.ruinwesen</vendor>
+  <idea-version since-build="8000"/>
+
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+    <!-- Add your project components here -->
+  </project-components>
+
+  <actions>
+    <action id="com.ruinwesen.GitBlameOpenAction" class="com.ruinwesen.GitBlameOpenAction" text="Github Blame"
+            description="Open current line in Github commits view">
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="EditorPasteSimple"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="meta alt G"/>
+    </action>
+  </actions>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+</idea-plugin>
