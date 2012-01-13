@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Usage: git hub-blame file line
+#
+# Opens the commit where the given line originates in the commit view. Useful for
+# code review on github.
+
+FILENAME=$1
+LINE=$2
+
+set -- $(git blame -p -L$LINE,$LINE "$FILENAME" |
+    awk '/filename/ {match($0, /^filename /); origfile = substr($0, RLENGTH+1)};
+        NR == 1 { commit = $1; origline = $2 };
+        END { print commit " " origfile " " origline }')
+
+COMMIT=$1
+ORIGFILE=$2
+ORIGLINE=$3
+
+set -- $(git diff-tree -r --name-only $COMMIT ${COMMIT}~1 |
+    awk -v origfile="$ORIGFILE" '$0 ~ origfile { print NR-1; exit } ')
+
+ORIGNUM=$1
+
+hub browse -- commit/${COMMIT}#L${ORIGNUM}R${ORIGLINE}
